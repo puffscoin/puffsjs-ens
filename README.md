@@ -1,23 +1,18 @@
-# EthJS ENS
+# PuffsJS ENS
 
-[![CircleCI](https://circleci.com/gh/ethjs/ethjs-ens.svg?style=svg)](https://circleci.com/gh/ethjs/ethjs-ens)
-[![Coverage Status](https://coveralls.io/repos/github/ethjs/ethjs-ens/badge.svg?branch=master)](https://coveralls.io/github/ethjs/ethjs-ens?branch=master)
-
-A convenience interface for using the Ethereum Name Service, based on the [EthJS contract abstraction](https://github.com/ethjs/ethjs-contract).
-
-[Live Demo](https://ethjs.github.io/ethjs-ens)
+A convenience interface for using the PUFFScoin Decentralized Name Service, based on the [PuffsJS contract abstraction](https://github.com/puffscoin/puffsjs-contract).
 
 ## Installation
 
 Install from npm:
 
-`npm install ethjs-ens --save`
+`npm install puffsjs-ens --save`
 
 ## Usage
 
 ```javascript
-const ENS = require('ethjs-ens')
-const HttpProvider = require('ethjs-provider-http')
+const ENS = require('puffsjs-ens')
+const HttpProvider = require('puffsjs-provider-http')
 
 // For MetaMask or Mist compatibility:
 if (typeof window === 'object' && typeof window.web3 !== 'undefined') {
@@ -33,9 +28,9 @@ function setupEns (provider) {
   // either a network or registryAddress param
   const ens = new ENS({ provider, network: '3' })
 
-  ens.lookup('vitalik.eth')
+  puffs.lookup('legalize.puffs')
   .then((address) => {
-    const expected = '0x5f8f68a0d1cbc75f6ef764a44619277092c32df0'
+    const expected = '0xb8a6cc26aa01304ecb5b05d0b7591b4ff9e40135405688139979efa10d168751'
 
     if (address === expected) {
       alert("That's how you do it!")
@@ -51,29 +46,29 @@ function setupEns (provider) {
 
 ## Available APIs
 
-### ens.lookup( name )
+### puffs.lookup( name )
 
-Takes a valid [ENS](https://ens.readthedocs.io/en/latest/introduction.html) name, like `vitalik.eth`, or `some.specialname.eth`.
+Takes a valid [ENS](http://puffscoin.leafycauldronapothecary.com/services/puffsdns/) name, like `legalize.puffs`, or `some.specialname.puffs`.
 
 Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that resolves to a hex-prefixed hexadecimal string for the resolved address.
 
 If a matching name can not be found, will throw:
 
 ```javascript
-new Error('ENS name not found.')
+new Error('PUFFScoin-ENS name not found.')
 ```
 
-### ens.reverse( address )
+### puffs.reverse( address )
 
-Takes an ethereum address (hex-encoded), and attempts to look up a corresponding name on the registry's reverse-registrar.
+Takes a PUFFScoin address (hex-encoded), and attempts to look up a corresponding name on the registry's reverse-registrar.
 
 Returns a promise that resolves a string if a name exists, or throws if it does not.
 
-### ens.registry
+### puffs.registry
 
-An [ethjs contract](https://github.com/ethjs/ethjs-ens) instance initialized for the specified network's address.
+A [puffsjs contract](https://github.com/puffscoin/puffsjs-ens) instance initialized for the specified network's address.
 
-Implements the registry interface specified in [EIP 137](https://github.com/ethereum/EIPs/issues/137):
+Implements the registry interface specified in [EIP 137](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-137.md):
 
 ```
 function owner(bytes32 node) constant returns (address);
@@ -89,8 +84,7 @@ function ttl(bytes32 node) constant returns (uint64);
 
 Network support is added by adding a registry for that network to the [network map](./lib/network-map.json).
 
-- Main net (id 1)
-- Ropsten (id 3)
+- Main net (id 420)
 
 ## Licence
 
