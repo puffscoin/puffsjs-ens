@@ -2921,13 +2921,13 @@ const namehash = require('eth-ens-namehash')
 const registryAbi = require('./abis/registry.json')
 const resolverAbi = require('./abis/resolver.json')
 
-// Map network to known ENS registries
-const networkMap = require('ethereum-ens-network-map')
+// Map network to known PUFFScoin-ENS registries
+const networkMap = require('puffscoin-ens-network-map')
 const emptyHash = '0x0000000000000000000000000000000000000000000000000000000000000000'
 const emptyAddr = '0x0000000000000000000000000000000000000000'
 
-const NotFoundError = new Error('ENS name not defined.')
-const BadCharacterError = new Error('Illegal Character for ENS.')
+const NotFoundError = new Error('PUFFScoin-ENS name not defined.')
+const BadCharacterError = new Error('Illegal Character for PUFFScoinENS.')
 
 class Ens {
 
@@ -2937,17 +2937,17 @@ class Ens {
 
     // Validations
     if (!provider) {
-      throw new Error('The EthJsENS Constructor requires a provider.')
+      throw new Error('The PuffsJsENS Constructor requires a provider.')
     }
 
     // Requires EITHER a network or a registryAddress
     if (!network && !registryAddress) {
-      throw new Error('The EthJsENS Constructor requires a network or registry address.')
+      throw new Error('The PuffsJsENS Constructor requires a network or registry address.')
     }
 
     this.provider = provider
-    this.eth = new Eth(this.provider)
-    this.contract = new EthContract(this.eth)
+    this.puffs = new Puffs(this.provider)
+    this.contract = new EthContract(this.puffs)
     this.namehash = namehash
 
     // Link to Registry
@@ -3060,9 +3060,9 @@ class Ens {
 
 module.exports = Ens
 
-},{"./abis/registry.json":6,"./abis/resolver.json":7,"eth-ens-namehash":12,"ethereum-ens-network-map":13,"ethjs-contract":17,"ethjs-query":22}],10:[function(require,module,exports){
+},{"./abis/registry.json":6,"./abis/resolver.json":7,"puffs-ens-namehash":12,"puffscoin-ens-network-map":13,"puffsjs-contract":17,"puffsjs-query":22}],10:[function(require,module,exports){
 module.exports={
-  "1": {
+  "420": {
     "registry": "314159265dd8dbb310642f98f50c066173c1259b"
   },
   "3": {
