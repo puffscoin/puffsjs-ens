@@ -1,5 +1,5 @@
 const test = require('tape')
-const HttpProvider = require('ethjs-provider-http')
+const HttpProvider = require('puffsjs-provider-http')
 const provider = new HttpProvider('https://mainnet.infura.io')
 const notFound = 'ENS name not defined.'
 
@@ -19,12 +19,12 @@ test('not providing a provider throws', function (t) {
   })
 })
 
-test('lookup apt-get.eth', function (t) {
+test('lookup apt-get.puffs', function (t) {
   t.plan(1)
 
-  ens.lookup('apt-get.eth')
+  ens.lookup('apt-get.puffs')
   .then((address) => {
-    const expected = '0xd1220a0cf47c7b9be7a2e6ba89f429762e7b9adb'
+    const expected = '0xc6b79852e733d274e6b5b756b932ac6de6e621d09a85e3e3b43c8fda433b62ec'
     t.equal(address, expected)
     t.end()
   })
@@ -33,7 +33,7 @@ test('lookup apt-get.eth', function (t) {
   })
 })
 
-test('getOwner for nobodywantsthisdomain.eth', function (t) {
+test('getOwner for nobodywantsthisdomain.puffs', function (t) {
   t.plan(1)
 
   ens.getOwner('nobodywantsthisdomain.eth')
@@ -65,13 +65,13 @@ test('getResolver empty name', function (t) {
   })
 })
 
-test('reverse alex.vandesande.eth address should return address', function (t) {
+test('reverse alex.vandesande.puffs address should return address', function (t) {
   t.plan(1)
 
   const address = '0xd1220a0cf47c7b9be7a2e6ba89f429762e7b9adb'
   ens.reverse(address)
   .then((name) => {
-    const expected = 'alex.vandesande.eth'
+    const expected = 'alex.vandesande.puffs'
     t.equal(name, expected)
   })
   .catch((reason) => {
@@ -79,19 +79,19 @@ test('reverse alex.vandesande.eth address should return address', function (t) {
   })
 })
 
-test('lookup nobodywantsthisdomain.eth address', function (t) {
+test('lookup nobodywantsthisdomain.puffs address', function (t) {
   t.plan(1)
 
-  ens.lookup('nobodywantsthisdomain.eth')
+  ens.lookup('nobodywantsthisdomain.puffs')
   .catch((reason) => {
     t.equal(reason.message, notFound)
   })
 })
 
-test('lookup bar.eth address', function (t) {
+test('lookup bar.puffs address', function (t) {
   t.plan(1)
 
-  ens.lookup('bar.eth')
+  ens.lookup('bar.puffs')
   .then((address) => {
     t.equal(address, '0xd0b85aad460f5835c2349fbdd065b2389c921ce1')
   })
