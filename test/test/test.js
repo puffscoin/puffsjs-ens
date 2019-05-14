@@ -4,7 +4,7 @@ var assert = require('assert');
 var async = require('async');
 var fs = require('fs');
 var solc = require('solc');
-var TestRPC = require('ethereumjs-testrpc');
+var TestRPC = require('puffscoinjs-testrpc');
 var Web3 = require('web3');
 
 var web3 = new Web3();
@@ -56,13 +56,13 @@ describe('ENS', function() {
 		it('should produce valid hashes', function() {
 			var ens = new ENS(web3, ensRoot);
 			assert.equal(ens.namehash(''), '0x0000000000000000000000000000000000000000000000000000000000000000');
-			assert.equal(ens.namehash('eth'), '0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae');
-			assert.equal(ens.namehash('foo.eth'), '0xde9b09fd7c5f901e23a3f19fecc54828e9c848539801e86591bd9801b019f84f');
+			assert.equal(ens.namehash('puffs'), '0xca8c1ae34d751f0f90ce84e46231d0a7a59d5126efbc18a34621aac0b118f888');
+			assert.equal(ens.namehash('foo.puffs'), '0x9140eb58df1e4b69b42036ba27769148ddb31ac2f685c46ff1b02938b6f104b3');
 		});
 
 		it('should canonicalize with nameprep', function() {
 			var ens = new ENS(web3, ensRoot);
-			assert.equal(ens.namehash('name.eth'), ens.namehash('NAME.eth'));
+			assert.equal(ens.namehash('name.puffs'), ens.namehash('NAME.puffs'));
 		});
 
 		it('should prohibit invalid names', function() {
@@ -78,19 +78,19 @@ describe('ENS', function() {
 
 	describe('#resolve()', function() {
 		it('should get resolver addresses', function(done) {
-			ens.resolver('foo.eth').resolverAddress().then(function(addr) {
+			ens.resolver('foo.puffs').resolverAddress().then(function(addr) {
 				assert.notEqual(addr, '0x0000000000000000000000000000000000000000');
 			}).catch(assert.ifError).finally(done);
 		});
 
 		it('should resolve names', function(done) {
-			ens.resolver('foo.eth').addr().then(function(result) {
+			ens.resolver('foo.puffs').addr().then(function(result) {
 				assert.equal(result, deployens.address);
 			}).catch(assert.ifError).finally(done);
 		});
 
 		it('should implement has()', function(done) {
-			var resolver = ens.resolver('foo.eth');
+			var resolver = ens.resolver('foo.puffs');
 			Promise.all([
 				resolver.has('addr').then(function(result) {
 					assert.equal(result, true);
@@ -102,21 +102,21 @@ describe('ENS', function() {
 		});
 
 		it('should error when the name record does not exist', function(done) {
-			ens.resolver('bar.eth').addr().catch(function(err) {
+			ens.resolver('bar.puffs').addr().catch(function(err) {
 				assert.ok(err.toString().indexOf('invalid JUMP') != -1, err);
 				done();
 			});
 		});
 
 		it('should error when the name does not exist', function(done) {
-			ens.resolver('quux.eth').addr().catch(function(err) {
+			ens.resolver('quux.puffs').addr().catch(function(err) {
 				assert.equal(err, ENS.NameNotFound);
 				done();
 			});
 		});
 
 		it('should permit name updates', function(done) {
-			var resolver = ens.resolver('bar.eth')
+			var resolver = ens.resolver('bar.puffs')
 			resolver.setAddr('0x12345', {from: accounts[0]}).then(function(result) {
 				return resolver.addr().then(function(result) {
 					assert.equal(result, '0x0000000000000000000000000000000000012345');
@@ -126,7 +126,7 @@ describe('ENS', function() {
 		});
 
 		it('should do reverse resolution', function(done) {
-			var resolver = ens.resolver('foo.eth');
+			var resolver = ens.resolver('foo.puffs');
 			resolver.reverseAddr().then(function(reverse) {
 				return reverse.name().then(function(result) {
 					assert.equal(result, "deployer.eth");
@@ -135,21 +135,21 @@ describe('ENS', function() {
 		});
 
 		it('should fetch ABIs from names', function(done) {
-			ens.resolver('foo.eth').abi().then(function(abi) {
+			ens.resolver('foo.puffs').abi().then(function(abi) {
 				assert.equal(abi.length, 2);
 				assert.equal(abi[0].name, "test2");
 			}).catch(assert.isError).finally(done);
 		});
 
 		it('should fetch ABIs from reverse records', function(done) {
-			ens.resolver('baz.eth').abi().then(function(abi) {
+			ens.resolver('baz.puffs').abi().then(function(abi) {
 				assert.equal(abi.length, 2);
 				assert.equal(abi[0].name, "test");
 			}).catch(assert.isError).finally(done);
 		});
 
 		it('should fetch contract instances', function(done) {
-			ens.resolver('baz.eth').contract().then(function(contract) {
+			ens.resolver('baz.puffs').contract().then(function(contract) {
 				assert.ok(contract.test != undefined);
 			}).catch(assert.isError).finally(done);
 		});
@@ -157,7 +157,7 @@ describe('ENS', function() {
 
 	describe('#owner()', function() {
 		it('should return owner values', function(done) {
-			ens.owner('bar.eth').then(function(result) {
+			ens.owner('bar.puffs').then(function(result) {
 				assert.equal(result, accounts[0]);
 			}).catch(assert.isError).finally(done);
 		});
@@ -165,8 +165,8 @@ describe('ENS', function() {
 
 	describe("#setSubnodeOwner", function() {
 		it('should permit setting subnode owners', function(done) {
-			ens.setSubnodeOwner('BAZ.bar.eth', accounts[0], {from: accounts[0]}).then(function(txid) {
-				return ens.owner('baz.bar.eth').then(function(owner) {
+			ens.setSubnodeOwner('BAZ.bar.puffs', accounts[0], {from: accounts[0]}).then(function(txid) {
+				return ens.owner('baz.bar.puffs').then(function(owner) {
 					assert.equal(owner, accounts[0]);
 				});
 			}).catch(assert.isError).finally(done);
@@ -176,8 +176,8 @@ describe('ENS', function() {
 	describe("#setResolver", function() {
 		it('should permit resolver updates', function(done) {
 			var addr = '0x2341234123412341234123412341234123412341';
-			ens.setResolver('baz.bar.eth', addr, {from: accounts[0]}).then(function(txid) {
-				return ens.resolver('baz.bar.eth').resolverAddress().then(function(address) {
+			ens.setResolver('baz.bar.puffs', addr, {from: accounts[0]}).then(function(txid) {
+				return ens.resolver('baz.bar.puffs').resolverAddress().then(function(address) {
 					assert.equal(address, addr);
 				});
 			}).catch(assert.isError).finally(done);
@@ -187,8 +187,8 @@ describe('ENS', function() {
 	describe("#setOwner", function() {
 		it('should permit owner updates', function(done) {
 			var addr = '0x3412341234123412341234123412341234123412';
-			ens.setOwner('baz.bar.eth', addr, {from: accounts[0]}).then(function(txid) {
-				return ens.owner('baz.bar.eth').then(function(owner) {
+			ens.setOwner('baz.bar.puffs', addr, {from: accounts[0]}).then(function(txid) {
+				return ens.owner('baz.bar.puffs').then(function(owner) {
 					assert.equal(owner, addr);
 				});
 			}).catch(assert.isError).finally(done);
@@ -198,7 +198,7 @@ describe('ENS', function() {
 	describe("#reverse", function() {
 		it('should look up reverse DNS records', function(done) {
 			ens.reverse(deployens.address).name().then(function(result) {
-				assert.equal(result, 'deployer.eth');
+				assert.equal(result, 'deployer.puffs');
 			}).catch(assert.isError).finally(done);
 		});
 	});
