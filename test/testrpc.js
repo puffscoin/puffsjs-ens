@@ -1,23 +1,23 @@
 const test = require('tape')
 const sinon = require('sinon')
 
-const Eth = require('ethjs-query')
-const EthContract = require('ethjs-contract')
+const Puffs = require('puffsjs-query')
+const PuffsContract = require('puffsjs-contract')
 const Web3 = require('web3')
 const fs = require('fs');
 const solc = require('solc');
-const TestRPC = require('ethereumjs-testrpc');
+const TestRPC = require('puffscoinjs-testrpc');
 const ENS = require('../')
-const namehash = require('eth-ens-namehash')
+const namehash = require('puffs-ens-namehash')
 
 const emptyAddress = '0x0000000000000000000000000000000000000000'
-const notFound = 'ENS name not defined.'
-const badName = 'Illegal Character for ENS.'
+const notFound = 'PUFFScoin-ENS name not defined.'
+const badName = 'Illegal Character for PUFFScoin-ENS.'
 
 const provider = TestRPC.provider()
-const eth = new Eth(provider)
+const puffs = new Puffs(provider)
 const web3 = new Web3(provider)
-const contract = new EthContract(eth)
+const contract = new PuffsContract(puffs)
 
 const registryAbi = require('../abis/registry.json')
 const resolverAbi = require('../abis/resolver.json')
@@ -50,10 +50,10 @@ test('setup', { timeout: 5000 }, function (t) {
       .then((tx) => {
         deployRoot = tx.contractAddress
 
-        const EthjsDeploy = contract(interface)
-        const ethjsDeploy = EthjsDeploy.at(deployRoot)
+        const PuffsjsDeploy = contract(interface)
+        const puffsjsDeploy = PuffsjsDeploy.at(deployRoot)
 
-        return ethjsDeploy.ens()
+        return puffsjsDeploy.ens()
       })
       .then((addr) => {
         ensRoot = addr[0]
@@ -74,7 +74,7 @@ test('#getResolver() with invalid name should throw', function (t) {
 })
 
 test('#getResolver() should get resolver addresses', function (t) {
-  ens.getResolver('foo.eth')
+  ens.getResolver('foo.puffs')
   .then((result) => {
     t.notEqual(result, emptyAddress)
     t.end()
@@ -82,7 +82,7 @@ test('#getResolver() should get resolver addresses', function (t) {
 })
 
 test('#getResolverAddress with valid name returns address.', function (t) {
-  ens.getResolverAddress('foo.eth')
+  ens.getResolverAddress('foo.puffs')
   .then((result) => {
     t.notEqual(result, emptyAddress)
     t.end()
@@ -90,7 +90,7 @@ test('#getResolverAddress with valid name returns address.', function (t) {
 })
 
 test('#getResolverForNode with no hex prefix adds it.', function (t) {
-  const node = namehash('foo.eth').substr(2)
+  const node = namehash('foo.puffs').substr(2)
   ens.getResolverForNode(node)
   .then((result) => {
     t.notEqual(result, emptyAddress)
@@ -99,7 +99,7 @@ test('#getResolverForNode with no hex prefix adds it.', function (t) {
 })
 
 test('#lookup() should get resolver addresses', function (t) {
-  ens.lookup('foo.eth')
+  ens.lookup('foo.puffs')
   .then((result) => {
     t.notEqual(result, emptyAddress)
     t.end()
@@ -107,7 +107,7 @@ test('#lookup() should get resolver addresses', function (t) {
 })
 
 test('#lookup() name with no resolver should throw', function (t) {
-  ens.lookup('cardassian.eth')
+  ens.lookup('cardassian.puffs')
   .catch((reason) => {
     t.equal(reason.message, 'ENS name not defined.')
     t.end()
@@ -115,7 +115,7 @@ test('#lookup() name with no resolver should throw', function (t) {
 })
 
 test('#lookup() with unregistered should throw', function (t) {
-  ens.lookup('blargadegh.eth')
+  ens.lookup('blargadegh.puffs')
   .catch((reason) => {
     t.equal(reason.message, notFound)
     t.end()
@@ -125,7 +125,7 @@ test('#lookup() with unregistered should throw', function (t) {
 test('#reverse() on deployRoot', function (t) {
   ens.reverse(deployRoot)
   .then((name) => {
-    t.equal(name, 'deployer.eth')
+    t.equal(name, 'deployer.puffs')
     t.end()
   })
 })
@@ -166,7 +166,7 @@ test('#reverse() throws on unknown address.', function (t) {
 
 test('#getNamehash() with good name', function (t) {
   t.plan(1)
-  ens.getNamehash('dan.eth')
+  ens.getNamehash('dan.puffs')
   .then((hash) => {
     t.ok(hash, 'success')
   })
@@ -177,7 +177,7 @@ test('#getNamehash() with good name', function (t) {
 
 test('#getNamehash() with bad name', function (t) {
   t.plan(1)
-  ens.getNamehash('dino dan.eth')
+  ens.getNamehash('dino dan.puffs')
   .then((hash) => {
     t.ok(false, 'should not resolve')
   })
@@ -188,7 +188,7 @@ test('#getNamehash() with bad name', function (t) {
 
 test('#lookup() with illegal char throws', function (t) {
   t.plan(1)
-  ens.lookup('dino dan.eth')
+  ens.lookup('dino dan.puffs')
   .catch((reason) => {
     t.ok(reason)
     t.end()
