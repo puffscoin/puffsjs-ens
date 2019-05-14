@@ -2871,7 +2871,7 @@ module.exports=[
 ]
 },{}],8:[function(require,module,exports){
 const ENS = require('../')
-const HttpProvider = require('ethjs-provider-http')
+const HttpProvider = require('puffsjs-provider-http')
 const networkMap = require('../lib/network-map.json')
 let ens
 
@@ -2911,11 +2911,11 @@ searchButton.addEventListener('click', function() {
 
 })
 
-},{"../":9,"../lib/network-map.json":10,"ethjs-provider-http":21}],9:[function(require,module,exports){
+},{"../":9,"../lib/network-map.json":10,"puffsjs-provider-http":21}],9:[function(require,module,exports){
 // External Deps
-const Eth = require('ethjs-query')
-const EthContract = require('ethjs-contract')
-const namehash = require('eth-ens-namehash')
+const Puffs = require('puffsjs-query')
+const PuffsContract = require('puffsjs-contract')
+const namehash = require('puffs-ens-namehash')
 
 // ABIs
 const registryAbi = require('./abis/registry.json')
@@ -2947,7 +2947,7 @@ class Ens {
 
     this.provider = provider
     this.puffs = new Puffs(this.provider)
-    this.contract = new EthContract(this.puffs)
+    this.contract = new PuffsContract(this.puffs)
     this.namehash = namehash
 
     // Link to Registry
