@@ -33,10 +33,10 @@ test('lookup apt-get.puffs', function (t) {
   })
 })
 
-test('getOwner for nobodywantsthisdomain.puffs', function (t) {
+test('getOwner for nobodywantsthisdomain.', function (t) {
   t.plan(1)
 
-  ens.getOwner('nobodywantsthisdomain.eth')
+  ens.getOwner('nobodywantsthisdomain.puffs')
   .then((owner) => {
     console.log('it is owned ', owner)
     t.ok(owner)
