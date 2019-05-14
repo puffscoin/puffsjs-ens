@@ -1,19 +1,19 @@
 // External Deps
-const Eth = require('ethjs-query')
-const EthContract = require('ethjs-contract')
-const namehash = require('eth-ens-namehash')
+const Eth = require('puffsjs-query')
+const EthContract = require('puffsjs-contract')
+const namehash = require('puffs-ens-namehash')
 
 // ABIs
 const registryAbi = require('./abis/registry.json')
 const resolverAbi = require('./abis/resolver.json')
 
 // Map network to known ENS registries
-const networkMap = require('ethereum-ens-network-map')
+const networkMap = require('puffscoin-ens-network-map')
 const emptyHash = '0x0000000000000000000000000000000000000000000000000000000000000000'
 const emptyAddr = '0x0000000000000000000000000000000000000000'
 
-const NotFoundError = new Error('ENS name not defined.')
-const BadCharacterError = new Error('Illegal Character for ENS.')
+const NotFoundError = new Error('PUFFScoin-ENS name not defined.')
+const BadCharacterError = new Error('Illegal Character for PUFFScoin-ENS.')
 
 class Ens {
   constructor (opts = {}) {
@@ -22,17 +22,17 @@ class Ens {
 
     // Validations
     if (!provider) {
-      throw new Error('The EthJsENS Constructor requires a provider.')
+      throw new Error('The PuffsJsENS Constructor requires a provider.')
     }
 
     // Requires EITHER a network or a registryAddress
     if (!network && !registryAddress) {
-      throw new Error('The EthJsENS Constructor requires a network or registry address.')
+      throw new Error('The PuffsJsENS Constructor requires a network or registry address.')
     }
 
     this.provider = provider
-    this.eth = new Eth(this.provider)
-    this.contract = new EthContract(this.eth)
+    this.puffs = new Puffs(this.provider)
+    this.contract = new PuffsContract(this.puffs)
     this.namehash = namehash
 
     // Link to Registry
