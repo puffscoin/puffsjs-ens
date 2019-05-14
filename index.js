@@ -1,6 +1,6 @@
 // External Deps
-const Eth = require('puffsjs-query')
-const EthContract = require('puffsjs-contract')
+const Puffs = require('puffsjs-query')
+const PuffsContract = require('puffsjs-contract')
 const namehash = require('puffs-ens-namehash')
 
 // ABIs
