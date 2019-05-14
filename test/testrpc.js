@@ -66,7 +66,7 @@ test('setup', { timeout: 5000 }, function (t) {
 })
 
 test('#getResolver() with invalid name should throw', function (t) {
-  ens.getResolver('havasupai.eth')
+  ens.getResolver('havasupai.puffs')
   .catch((result) => {
     t.equal(result.message, notFound)
     t.end()
