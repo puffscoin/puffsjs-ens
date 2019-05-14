@@ -34,7 +34,7 @@
   "devDependencies": {
     "coveralls": "^2.12.0",
     "eslint": "^4.7.1",
-    "ethereumjs-testrpc": "^3.0.3",
+    "puffscoinjs-testrpc": "^3.0.3",
     "puffsjs": "^0.2.5",
     "puffsjs-provider-http": "^0.1.6",
     "puffsjs-query": "^0.2.4",
