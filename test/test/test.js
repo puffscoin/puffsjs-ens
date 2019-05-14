@@ -129,7 +129,7 @@ describe('ENS', function() {
 			var resolver = ens.resolver('foo.puffs');
 			resolver.reverseAddr().then(function(reverse) {
 				return reverse.name().then(function(result) {
-					assert.equal(result, "deployer.eth");
+					assert.equal(result, "deployer.puffs");
 				});
 			}).catch(assert.isError).finally(done);
 		});
