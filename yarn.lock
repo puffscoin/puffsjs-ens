@@ -1277,7 +1277,7 @@ merkle-patricia-tree@^2.1.2, merkle-patricia-tree@~2.1.2:
   resolved "https://registry.yarnpkg.com/merkle-patricia-tree/-/merkle-patricia-tree-2.1.2.tgz#724483d54b75631a48fedda55e114051706a7291"
   dependencies:
     async "^1.4.2"
-    ethereumjs-util "^4.0.0"
+    puffscoinjs-util "^4.0.0"
     level-ws "0.0.0"
     levelup "^1.2.1"
     memdown "^1.0.0"
@@ -2037,10 +2037,10 @@ web3-provider-engine@~8.1.0:
   dependencies:
     async "^2.1.2"
     clone "^2.0.0"
-    ethereumjs-block "^1.2.2"
-    ethereumjs-tx "^1.2.0"
-    ethereumjs-util "^5.0.1"
-    ethereumjs-vm "^2.0.2"
+    puffscoinjs-block "^1.2.2"
+    puffscoinjs-tx "^1.2.0"
+    puffscoinjs-util "^5.0.1"
+    puffscoinjs-vm "^2.0.2"
     isomorphic-fetch "^2.2.0"
     request "^2.67.0"
     semaphore "^1.0.3"
