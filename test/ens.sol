@@ -287,13 +287,13 @@ contract DeployENS {
 
         // Set bar.puffs up with a resolver but no addr record, owned by the sender
         ens.setSubnodeOwner(tldnode, sha3('bar'), this);
-        var barDotEth = sha3(tldnode, sha3('bar'));
+        var barDotPuffs = sha3(tldnode, sha3('bar'));
         ens.setResolver(barDotPuffs, resolver);
         ens.setOwner(barDotPuffs, msg.sender);
 
         // Set up baz.puffs with a resolver and addr record
         ens.setSubnodeOwner(tldnode, sha3('baz'), this);
-        var bazDotEth = sha3(tldnode, sha3('baz'));
+        var bazDotPuffs = sha3(tldnode, sha3('baz'));
         ens.setResolver(bazDotPuffs, resolver);
         resolver.setAddr(bazDotPuffs, this);
     }
