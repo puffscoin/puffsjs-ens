@@ -22,14 +22,14 @@ describe('ENS', function() {
 		web3.setProvider(TestRPC.provider());
 		web3.setProvider(new web3.providers.HttpProvider('http://localhost:11363'));
 
-		web3.eth.getAccounts(function(err, acct) {
+		web3.puffs.getAccounts(function(err, acct) {
 			accounts = acct
 
 			var source = fs.readFileSync('test/ens.sol').toString();
 			var compiled = solc.compile(source, 1);
 			assert.equal(compiled.errors, undefined);
 			var deployer = compiled.contracts[':DeployENS'];
-			var deployensContract = web3.eth.contract(JSON.parse(deployer.interface));
+			var deployensContract = web3.puffs.contract(JSON.parse(deployer.interface));
 
 			// Deploy the contract
 			deployens = deployensContract.new(
