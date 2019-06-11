@@ -27,12 +27,12 @@ let deploy, ensRoot, ens, accounts, deployRoot
 
 test('setup', { timeout: 5000 }, function (t) {
 
-  eth.accounts()
+  puffs.accounts()
   .then((result) => {
     accounts = result
 
     const interface = JSON.parse(deployer.interface)
-    var deployensContract = web3.eth.contract(JSON.parse(deployer.interface));
+    var deployensContract = web3.puffs.contract(JSON.parse(deployer.interface));
 
     // Deploy the contract
     const deployens = deployensContract.new({
@@ -197,7 +197,7 @@ test('#lookup() with illegal char throws', function (t) {
 
 function pollForTransaction(txHash) {
   let tx
-  return eth.getTransactionReceipt(txHash)
+  return puffs.getTransactionReceipt(txHash)
   .then((result) => {
     if (!result) {
       return pollForTransaction(txHash)
